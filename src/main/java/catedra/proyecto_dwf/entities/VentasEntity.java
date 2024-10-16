@@ -10,13 +10,13 @@ public class VentasEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "IdVentas", nullable = false)
-    private Object idVentas;
+    private Integer idVentas;
     @Basic
     @Column(name = "IdCliente", nullable = true)
-    private Object idCliente;
+    private Integer idCliente;
     @Basic
     @Column(name = "IdEmpleado", nullable = true)
-    private Object idEmpleado;
+    private Integer idEmpleado;
     @Basic
     @Column(name = "NumeroSerie", nullable = true, length = 244)
     private String numeroSerie;
@@ -34,7 +34,7 @@ public class VentasEntity {
         return idVentas;
     }
 
-    public void setIdVentas(Object idVentas) {
+    public void setIdVentas(Integer idVentas) {
         this.idVentas = idVentas;
     }
 
@@ -42,7 +42,7 @@ public class VentasEntity {
         return idCliente;
     }
 
-    public void setIdCliente(Object idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -50,7 +50,7 @@ public class VentasEntity {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(Object idEmpleado) {
+    public void setIdEmpleado(Integer idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
 

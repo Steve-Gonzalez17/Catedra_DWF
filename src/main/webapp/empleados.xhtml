@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Panel - Administrador</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:toolbar>
+            <p:toolbarGroup>
+                <h:outputText value="Menú" style="font-weight:bold;" />
+            </p:toolbarGroup>
+            <p:toolbarGroup>
+                <h:commandButton value="Inicio" action="admin_index.xhtml?faces-redirect=true" />
+                <h:commandButton value="Empleados" action="empleados.xhtml?faces-redirect=true" />
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:dataTable value="#{empleado.empleados}" var="emp" editable="true">
+            <p:column headerText="ID">
+                <h:outputText value="#{emp.idEmpleado}" />
+            </p:column>
+            <p:column headerText="DNI">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{emp.dni}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{emp.dni}" required="true"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Nombre">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{emp.nombres}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{emp.nombres}" required="true"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Teléfono">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{emp.telefono}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{emp.telefono}" required="true"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Estado">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{emp.estado ? 'Activo' : 'De baja'}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:selectOneMenu value="#{emp.estado}">
+                            <f:selectItem itemValue="true" itemLabel="Activo" />
+                            <f:selectItem itemValue="false" itemLabel="De baja" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Usuario">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{emp.user}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{emp.user}" required="true"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Contraseña">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{emp.contraseña}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{emp.contraseña}" required="true" />
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Acciones">
+                <h:commandButton value="Editar" action="#{empleado.redirigirEditar(emp.idEmpleado)}" />
+                <h:commandButton value="Eliminar" action="#{empleado.eliminarEmpleado(emp.idEmpleado)}"
+                                 onclick="return confirm('¿Estás seguro de que deseas eliminar este empleado?');" />
+            </p:column>
+        </p:dataTable>
+        <h:commandButton value="Agregar Nuevo Empleado" action="nuevoEmpleado.xhtml?faces-redirect=true" />
+    </h:form>
+</h:body>
+
+</html>

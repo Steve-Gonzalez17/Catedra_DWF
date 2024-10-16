@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: steve
+  Date: 15/10/2024
+  Time: 11:40
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Panel - Administrador</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:toolbar>
+            <p:toolbarGroup>
+                <h:outputText value="Menú" style="font-weight:bold;" />
+            </p:toolbarGroup>
+            <p:toolbarGroup>
+                <h:commandButton value="Inicio" action="admin_index.xhtml?faces-redirect=true" />
+                <h:commandButton value="Empleados" action="empleados.xhtml?faces-redirect=true" />
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:tabView>
+            <!-- Gestión de Productos -->
+            <p:tab title="Productos">
+                <p:dataTable value="#{producto.productos}" var="prod" editable="true">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{prod.idProducto}" />
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{prod.nombres}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{prod.nombres}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{prod.precio}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{prod.precio}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Stock">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{prod.stock}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{prod.stock}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{prod.estado ? 'En stock' : 'Inactivo'}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{prod.estado}" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Imagen">
+                        <h:graphicImage value="data:image/png;base64,#{producto.convertirImagen(prod.imagenUrl)}" style="width: 100px; height: 100px;" rendered="#{prod.imagenUrl != null}" />
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <h:commandButton value="Editar" action="#{producto.redirigirEditar(prod.idProducto)}" />
+                        <h:commandButton value="Eliminar" action="#{producto.eliminarProducto(prod.idProducto)}"
+                                         onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');" />                    </p:column>
+                </p:dataTable>
+                <h:commandButton value="Agregar Nuevo Producto" action="nuevoProducto.xhtml?faces-redirect=true" />
+            </p:tab>
+
+
+
+
+
+        </p:tabView>
+    </h:form>
+</h:body>
+
+</html>

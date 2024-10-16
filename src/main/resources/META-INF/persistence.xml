@@ -5,15 +5,16 @@
              version="3.0">
     <persistence-unit name="default">
 
+
         <class>catedra.proyecto_dwf.entities.ClienteEntity</class>
         <class>catedra.proyecto_dwf.entities.DetalleVentasEntity</class>
         <class>catedra.proyecto_dwf.entities.EmpleadoEntity</class>
         <class>catedra.proyecto_dwf.entities.ProductoEntity</class>
         <class>catedra.proyecto_dwf.entities.VentasEntity</class>
         <properties>
-            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/bd_ventas"/>
-            <property name="toplink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="toplink.jdbc.user" value="root"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/bd_ventas?useSSL=false"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.user" value="root"/>
         </properties>
     </persistence-unit>
 </persistence>

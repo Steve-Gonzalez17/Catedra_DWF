@@ -1,80 +1,114 @@
 package catedra.proyecto_dwf.beans;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-@Entity
-@Table(name = "empleado")
+import catedra.proyecto_dwf.entities.EmpleadoEntity;
+import catedra.proyecto_dwf.entities.ProductoEntity;
+import catedra.proyecto_dwf.model.EmpleadoModel;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.faces.bean.ViewScoped;
+import jakarta.faces.context.FacesContext;
+
+import java.io.IOException;
+import java.util.List;
+
+@ManagedBean
+@ViewScoped
 public class Empleado {
+    private List<EmpleadoEntity> empleados;
+    private EmpleadoEntity nuevoEmpleado;
+    private EmpleadoModel empleadoModel;
+    private EmpleadoEntity empleadoEditado;
 
-    @Id
-    private int idEmpleado;
-    private String dni;
-    private String nombres;
-    private String telefono;
-    private String estado;
-    private String user;
+    @PostConstruct
+    public void init() {
+        empleadoModel = new EmpleadoModel();
+        cargarEmpleados();
+        nuevoEmpleado = new EmpleadoEntity();
+        empleadoEditado = new EmpleadoEntity(); // Inicializar el objeto para edición
 
-    // Constructor por defecto
-    public Empleado() {
+        String idEmpleadoParam = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap()
+                .get("idEmpleado");
+
+        if (idEmpleadoParam != null) {
+            try {
+                Integer idEmpleado = Integer.parseInt(idEmpleadoParam);
+                empleadoEditado = empleadoModel.obtenerPorId(idEmpleado);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    // Constructor con parámetros
-    public Empleado(int idEmpleado, String dni, String nombres, String telefono, String estado, String user) {
-        this.idEmpleado = idEmpleado;
-        this.dni = dni;
-        this.nombres = nombres;
-        this.telefono = telefono;
-        this.estado = estado;
-        this.user = user;
+
+
+    public void cargarEmpleados() {
+        empleados = empleadoModel.obtenerTodos();
+    }
+
+    public void guardarEmpleado() {
+        try {
+
+            empleadoModel.guardar(nuevoEmpleado);
+            cargarEmpleados();
+            nuevoEmpleado = new EmpleadoEntity();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("empleados.xhtml");
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void redirigirEditar(Integer idEmpleado) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("editarEmpleado.xhtml?idEmpleado=" + idEmpleado + "&faces-redirect=true");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editarEmpleado() {
+        try {
+            if (empleadoEditado != null && empleadoEditado.getIdEmpleado() != null) {
+                empleadoModel.editar(empleadoEditado); // Llama al modelo para actualizar el empleado
+                cargarEmpleados(); // Recargar la lista de empleados
+                FacesContext.getCurrentInstance().getExternalContext()
+                        .redirect("empleado.xhtml?faces-redirect=true"); // Redirigir correctamente
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void eliminarEmpleado(Integer idEmpleado) {
+        empleadoModel.eliminar(idEmpleado);
+        cargarEmpleados(); // Recargar la lista de empleados
+    }
+
+    public EmpleadoEntity getempleadoEditado() {
+        return empleadoEditado;
     }
 
     // Getters y Setters
-    public int getIdEmpleado() {
-        return idEmpleado;
+    public List<EmpleadoEntity> getEmpleados() {
+        return empleados;
     }
 
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public EmpleadoEntity getNuevoEmpleado() {
+        return nuevoEmpleado;
     }
 
-    public String getDni() {
-        return dni;
+    public void setNuevoEmpleado(EmpleadoEntity nuevoEmpleado) {
+        this.nuevoEmpleado = nuevoEmpleado;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public EmpleadoEntity getEmpleadoEditado() {
+        return empleadoEditado;
     }
 
-    public String getNombres() {
-        return nombres;
-    }
-
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
+    public void setEmpleadoEditado(EmpleadoEntity empleadoEditado) {
+        this.empleadoEditado = empleadoEditado;
     }
 }

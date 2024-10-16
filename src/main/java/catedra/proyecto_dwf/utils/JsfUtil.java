@@ -1,4 +1,4 @@
-package catedra.proyecto_dwf.model;
+package catedra.proyecto_dwf.utils;
 
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;

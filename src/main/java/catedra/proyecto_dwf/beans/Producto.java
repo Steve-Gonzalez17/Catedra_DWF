@@ -1,71 +1,135 @@
 package catedra.proyecto_dwf.beans;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import catedra.proyecto_dwf.entities.ProductoEntity;
+import catedra.proyecto_dwf.model.ProductoModel;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.faces.bean.ViewScoped;
+import jakarta.faces.context.FacesContext;
+import org.primefaces.model.file.UploadedFile;
 
-@Entity
-@Table(name = "producto")
+import java.io.IOException;
+import java.util.List;
+import java.util.Base64;
+
+@ManagedBean
+@ViewScoped
 public class Producto {
+    private List<ProductoEntity> productos;
+    private ProductoEntity nuevoProducto;
+    private ProductoModel productoModel;
+    private UploadedFile imagenFile;
 
-    @Id
-    private int idProducto;
-    private String nombres;
-    private double precio;
-    private int stock;
-    private String estado;
+    private ProductoEntity productoEditado;
 
-    // Constructor por defecto
-    public Producto() {
+    @PostConstruct
+    public void init() {
+        productoModel = new ProductoModel();
+        cargarProductos();
+        nuevoProducto = new ProductoEntity();
+        productoEditado = new ProductoEntity();
+
+        String idProductoParam = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap()
+                .get("idProducto");
+
+        if (idProductoParam != null) {
+            try {
+                Integer idProducto = Integer.parseInt(idProductoParam);
+                productoEditado = productoModel.obtenerPorId(idProducto);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    // Constructor con parámetros
-    public Producto(int idProducto, String nombres, double precio, int stock, String estado) {
-        this.idProducto = idProducto;
-        this.nombres = nombres;
-        this.precio = precio;
-        this.stock = stock;
-        this.estado = estado;
+    public void cargarProductos() {
+        productos = productoModel.obtenerTodos();
     }
 
-    // Getters y Setters
-    public int getIdProducto() {
-        return idProducto;
+    public void redirigirEditar(Integer idProducto) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect("editarProducto.xhtml?idProducto=" + idProducto + "&faces-redirect=true");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
+    public void guardarProducto() {
+        try {
+            // Verificar que se haya subido un archivo
+            if (imagenFile != null) {
+                // Convertir el archivo subido a un byte[]
+                byte[] bytes = imagenFile.getContent();
+                nuevoProducto.setImagenUrl(bytes);
+            }
+
+            productoModel.guardar(nuevoProducto);
+            cargarProductos();
+            nuevoProducto = new ProductoEntity(); // Reiniciar el formulario
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("admin_index.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public String getNombres() {
-        return nombres;
+    public void editarProducto() {
+        try {
+            if (productoEditado != null && productoEditado.getIdProducto() != null) {
+                productoModel.editar(productoEditado); // Llama al modelo para actualizar el producto
+                cargarProductos(); // Recargar la lista de productos
+                FacesContext.getCurrentInstance().getExternalContext()
+                        .redirect("admin_index.xhtml?faces-redirect=true"); // Redirigir correctamente
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void eliminarProducto(Integer idProducto) {
+        productoModel.eliminar(idProducto);
+        cargarProductos(); // Recargar la lista de productos
     }
 
-    public double getPrecio() {
-        return precio;
+    public ProductoEntity getProductoEditado() {
+        return productoEditado;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setProductoEditado(ProductoEntity productoEditado) {
+        this.productoEditado = productoEditado;
     }
 
-    public int getStock() {
-        return stock;
+    public void handleFileUpload(org.primefaces.event.FileUploadEvent event) {
+        this.imagenFile = event.getFile();
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public List<ProductoEntity> getProductos() {
+        return productos;
     }
 
-    public String getEstado() {
-        return estado;
+    public ProductoEntity getNuevoProducto() {
+        return nuevoProducto;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setNuevoProducto(ProductoEntity nuevoProducto) {
+        this.nuevoProducto = nuevoProducto;
+    }
+
+    public UploadedFile getImagenFile() {
+        return imagenFile;
+    }
+
+    public void setImagenFile(UploadedFile imagenFile) {
+        this.imagenFile = imagenFile; // Aquí está el método setter
+    }
+
+    public String convertirImagen(byte[] imagenUrl) {
+        if (imagenUrl != null) {
+            return Base64.getEncoder().encodeToString(imagenUrl);
+        }
+        return "";
     }
 }

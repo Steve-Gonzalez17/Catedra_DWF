@@ -8,7 +8,7 @@ public class ClienteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "IdCliente", nullable = false)
-    private Object idCliente;
+    private Integer idCliente;
     @Basic
     @Column(name = "Dni", nullable = true, length = 8)
     private String dni;
@@ -26,7 +26,7 @@ public class ClienteEntity {
         return idCliente;
     }
 
-    public void setIdCliente(Object idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
 

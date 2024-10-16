@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: steve
+  Date: 15/10/2024
+  Time: 14:39
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Agregar - Producto</title>
+</h:head>
+
+<h:body>
+    <h:form enctype="multipart/form-data">
+        <h2>Agregar Nuevo Producto</h2>
+
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel value="Nombre:" />
+            <p:inputText value="#{producto.nuevoProducto.nombres}" />
+
+            <h:outputLabel value="Precio:" />
+            <p:inputText value="#{producto.nuevoProducto.precio}" />
+
+            <h:outputLabel value="Stock:" />
+            <p:inputText value="#{producto.nuevoProducto.stock}" />
+
+            <h:outputLabel value="Estado:" />
+            <p:selectOneMenu value="#{producto.nuevoProducto.estado}">
+                <f:selectItem itemValue="true" itemLabel="En Stock" />
+                <f:selectItem itemValue="false" itemLabel="Inactivo" />
+            </p:selectOneMenu>
+
+            <h:outputLabel value="Imagen:" />
+            <p:fileUpload value="#{producto.imagenFile}" mode="simple" auto="true"
+                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                          onstart="PF('statusDialog').show()"/>
+
+        </h:panelGrid>
+
+        <h:commandButton value="Guardar Producto" action="#{producto.guardarProducto}" icon="pi pi-save" />
+        <h:button value="Cancelar" outcome="admin_index.html" />
+    </h:form>
+</h:body>
+
+</html>

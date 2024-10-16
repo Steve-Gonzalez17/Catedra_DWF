@@ -2,13 +2,15 @@ package catedra.proyecto_dwf.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+
 @Entity
 @Table(name = "producto", schema = "bd_ventas", catalog = "")
 public class ProductoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "IdProducto", nullable = false)
-    private Object idProducto;
+    private Integer idProducto;
     @Basic
     @Column(name = "Nombres", nullable = true, length = 244)
     private String nombres;
@@ -17,16 +19,19 @@ public class ProductoEntity {
     private Double precio;
     @Basic
     @Column(name = "Stock", nullable = true)
-    private Object stock;
+    private String stock;
     @Basic
     @Column(name = "Estado", nullable = true, length = 1)
-    private String estado;
+    private boolean  estado;
+    @Basic
+    @Column(name = "ImagenUrl", nullable = true)
+    private byte[] imagenUrl;
 
     public Object getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(Object idProducto) {
+    public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
 
@@ -50,16 +55,24 @@ public class ProductoEntity {
         return stock;
     }
 
-    public void setStock(Object stock) {
+    public void setStock(String stock) {
         this.stock = stock;
     }
 
-    public String getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public byte[] getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(byte[] imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     @Override
@@ -69,13 +82,12 @@ public class ProductoEntity {
 
         ProductoEntity that = (ProductoEntity) o;
 
+        if (estado != that.estado) return false;
         if (idProducto != null ? !idProducto.equals(that.idProducto) : that.idProducto != null) return false;
         if (nombres != null ? !nombres.equals(that.nombres) : that.nombres != null) return false;
         if (precio != null ? !precio.equals(that.precio) : that.precio != null) return false;
         if (stock != null ? !stock.equals(that.stock) : that.stock != null) return false;
-        if (estado != null ? !estado.equals(that.estado) : that.estado != null) return false;
-
-        return true;
+        return Arrays.equals(imagenUrl, that.imagenUrl);
     }
 
     @Override
@@ -84,7 +96,8 @@ public class ProductoEntity {
         result = 31 * result + (nombres != null ? nombres.hashCode() : 0);
         result = 31 * result + (precio != null ? precio.hashCode() : 0);
         result = 31 * result + (stock != null ? stock.hashCode() : 0);
-        result = 31 * result + (estado != null ? estado.hashCode() : 0);
+        result = 31 * result + (estado ? 1 : 0);
+        result = 31 * result + Arrays.hashCode(imagenUrl);
         return result;
     }
 }

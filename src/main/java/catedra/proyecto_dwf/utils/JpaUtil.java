@@ -1,4 +1,4 @@
-package catedra.proyecto_dwf.model;
+package catedra.proyecto_dwf.utils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

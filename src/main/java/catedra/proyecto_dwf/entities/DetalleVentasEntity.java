@@ -8,16 +8,16 @@ public class DetalleVentasEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "IdDetalleVentas", nullable = false)
-    private Object idDetalleVentas;
+    private Integer idDetalleVentas;
     @Basic
     @Column(name = "IdVentas", nullable = true)
-    private Object idVentas;
+    private Integer idVentas;
     @Basic
     @Column(name = "IdProducto", nullable = true)
-    private Object idProducto;
+    private Integer idProducto;
     @Basic
     @Column(name = "Cantidad", nullable = true)
-    private Object cantidad;
+    private String cantidad;
     @Basic
     @Column(name = "PrecioVenta", nullable = true, precision = 0)
     private Double precioVenta;
@@ -26,7 +26,7 @@ public class DetalleVentasEntity {
         return idDetalleVentas;
     }
 
-    public void setIdDetalleVentas(Object idDetalleVentas) {
+    public void setIdDetalleVentas(Integer idDetalleVentas) {
         this.idDetalleVentas = idDetalleVentas;
     }
 
@@ -34,7 +34,7 @@ public class DetalleVentasEntity {
         return idVentas;
     }
 
-    public void setIdVentas(Object idVentas) {
+    public void setIdVentas(Integer idVentas) {
         this.idVentas = idVentas;
     }
 
@@ -42,7 +42,7 @@ public class DetalleVentasEntity {
         return idProducto;
     }
 
-    public void setIdProducto(Object idProducto) {
+    public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
 
@@ -50,7 +50,7 @@ public class DetalleVentasEntity {
         return cantidad;
     }
 
-    public void setCantidad(Object cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
 
