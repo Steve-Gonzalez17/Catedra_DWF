@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -9,8 +7,42 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Productos</title>
     <h:outputStylesheet>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /*NAVBAR*/
+        header {
+            background-color: #0288d1;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /*PRODUCTOS*/
         .product-card {
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -57,9 +89,30 @@
             display: flex;
             justify-content: center;
         }
+        footer {
+            background-color: #0288d1;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 50px;
+            min-height: 80px;
+        }
     </h:outputStylesheet>
 </h:head>
 <h:body>
+    <h:form>
+        <header>
+            <div class="logo">
+                <h1>Farmacia </h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><h:link value="Inicio" outcome="index.xhtml"/></li>
+                    <li><h:link value="Medicamentos" outcome="Productos.xhtml"/></li>
+                </ul>
+            </nav>
+        </header>
+    </h:form>
     <h:form>
         <div class="product-grid">
             <ui:repeat value="#{producto.productos}" var="prod">
@@ -73,6 +126,9 @@
             </ui:repeat>
         </div>
     </h:form>
+    <footer>
+        <p>2024 Farmacia. Todos los derechos reservados.</p>
+    </footer>
 </h:body>
 
 </html>
