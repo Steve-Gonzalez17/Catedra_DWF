@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Productos</title>
+    <h:outputStylesheet>
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 15px;
+            background-color: #f9f9f9;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            max-height: 250px;
+        }
+
+        .product-card h3 {
+            margin: 15px 0 10px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .product-card p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-column {
+            flex: 0 0 30%;
+            display: flex;
+            justify-content: center;
+        }
+    </h:outputStylesheet>
+</h:head>
+<h:body>
+    <h:form>
+        <div class="product-grid">
+            <ui:repeat value="#{producto.productos}" var="prod">
+                <div class="product-column">
+                    <p:panel styleClass="product-card">
+                        <h3><h:outputText value="#{prod.nombres}" /></h3>
+                        <h:graphicImage value="data:image/png;base64,#{producto.convertirImagen(prod.imagenUrl)}" style="width: 100%; max-width: 300px; height: auto;" rendered="#{prod.imagenUrl != null}" />
+                        <p><h:outputText value="Precio: $#{prod.precio}" /></p>
+                    </p:panel>
+                </div>
+            </ui:repeat>
+        </div>
+    </h:form>
+</h:body>
+
+</html>

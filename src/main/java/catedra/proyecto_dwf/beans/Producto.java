@@ -59,7 +59,6 @@ public class Producto {
 
     public void guardarProducto() {
         try {
-            // Verificar que se haya subido un archivo
             if (imagenFile != null) {
                 // Convertir el archivo subido a un byte[]
                 byte[] bytes = imagenFile.getContent();
@@ -68,7 +67,7 @@ public class Producto {
 
             productoModel.guardar(nuevoProducto);
             cargarProductos();
-            nuevoProducto = new ProductoEntity(); // Reiniciar el formulario
+            nuevoProducto = new ProductoEntity();
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("admin_index.xhtml");
         } catch (IOException e) {
@@ -79,10 +78,10 @@ public class Producto {
     public void editarProducto() {
         try {
             if (productoEditado != null && productoEditado.getIdProducto() != null) {
-                productoModel.editar(productoEditado); // Llama al modelo para actualizar el producto
-                cargarProductos(); // Recargar la lista de productos
+                productoModel.editar(productoEditado);
+                cargarProductos();
                 FacesContext.getCurrentInstance().getExternalContext()
-                        .redirect("admin_index.xhtml?faces-redirect=true"); // Redirigir correctamente
+                        .redirect("admin_index.xhtml?faces-redirect=true");
             }
         } catch (IOException e) {
             e.printStackTrace();
